@@ -1,0 +1,111 @@
+import sqlite3
+
+class Veiculo:
+    def conexao(self):
+        conexao = sqlite3.connect("estacionamento_db")
+        consulta = conexao.cursor()
+        tabela = """
+        CREATE TABLE IF NOT EXISTS veiculos(
+            id INTEGER PRIMARY KEY,
+            placa VARCHAR(100),
+            modelo VARCHAR(100),
+            data_entrada DATE,
+            data_saida DATE
+        );
+        """
+
+        consulta.execute(tabela)
+        return conexao
+    
+    def cadastrarVeiculo(self, id, placa, modelo, data_entrada, data_saida):
+        conexao = self.conexao()
+
+        sql = "INSERT INTO veiculos VALUES(?,?,?,?,?)" 
+
+        campos = (id, placa, modelo, data_entrada, data_saida)
+
+        consulta = conexao.cursor()
+        consulta.execute(sql, campos)
+
+        conexao.commit()
+
+        print(consulta.rowcount, " linha inserida com sucesso\n")
+        conexao.close()
+
+    def consultarVeiculo(self):
+        conexao = self.conexao()
+        consulta = conexao.cursor()
+        
+        sql = "SELECT * FROM veiculos"
+        consulta.execute(sql)
+        
+        resultado = consulta.fetchall()
+        
+        for itens in resultado:
+            print(f"Id: {itens[0]}")
+            print(f"Placa: {itens[1]}")
+            print(f"Modelo: {itens[2]}")
+            print(f"Data de entrada: {itens[3]}")
+            print(f"Data de saida: {itens[4]}")
+            print("-"*40)
+            
+        conexao.close()
+        
+
+    def deletarVeiculo(self):
+        conexao = self.conexao()
+        consulta = conexao.cursor()
+        
+        id = int(input("Informe o id do veiculo que deseja excluir: "))
+        
+        sql = "DELETE FROM veiculos WHERE id = ?"
+        
+        campos = (id,)
+        
+        consulta.execute(sql, campos)
+        conexao.commit()
+        print(consulta.rowcount, " linha deletada com sucesso")
+        
+        if consulta.rowcount == 0:
+            print("Esse ID não foi encontrado.\n")
+        else:
+            conexao.close() 
+        
+    def atualizarVeiculo(self):
+        conexao = self.conexao()
+        consulta = conexao.cursor()
+        
+        id = input("Digite o ID que deseja alterar: ")
+        placa = input("Nova placa: ")
+        modelo = input("Novo modelo: ")
+        data_entrada = input("Nova data de entrada: ")
+        data_saida = input("Nova data de saída: ")
+        
+        sql = "UPDATE veiculos SET placa = ?, modelo = ?, data_entrada = ?, data_saida = ? WHERE id = ?"
+        
+        campos = (placa, modelo, data_entrada, data_saida, id)
+        
+        consulta.execute(sql, campos)
+        conexao.commit()
+        print(consulta.rowcount, " linha atualizada com sucesso\n")
+        conexao.close() 
+        
+    def consultarVeiculoIndividual (self):
+        conexao = self.conexao()
+        consulta = conexao.cursor()
+
+        id = int(input("Informe o ID do veículo que deseja consultar: "))
+
+        sql = "SELECT * FROM veiculos WHERE id = ?"
+        campos = (id,)
+        consulta.execute(sql, campos)
+
+        resultado = consulta.fetchall()
+
+        for itens in resultado:
+            print(f"ID: {itens[0]}")
+            print(f"Placa: {itens[1]}")
+            print(f"Modelo: {itens[2]}")
+            print(f"data_entrada: {itens[3]}")
+            print(f"data_saida: {itens[4]}")
+        conexao.close()
