@@ -1,5 +1,4 @@
 import time 
-
 from estacionamento import Veiculo
 
 v1 = Veiculo()
