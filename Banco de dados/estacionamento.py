@@ -10,19 +10,21 @@ class Veiculo:
             placa VARCHAR(100),
             modelo VARCHAR(100),
             data_entrada DATE,
-            data_saida DATE
+            horario_entrada TIME,
+            data_saida DATE,
+            horario_saida TIME
         );
         """
 
         consulta.execute(tabela)
         return conexao
     
-    def cadastrarVeiculo(self, id, placa, modelo, data_entrada, data_saida):
+    def cadastrarVeiculo(self, id, placa, modelo, data_entrada, horario_entrada, data_saida, horario_saida):
         conexao = self.conexao()
 
-        sql = "INSERT INTO veiculos VALUES(?,?,?,?,?)" 
+        sql = "INSERT INTO veiculos VALUES(?,?,?,?,?,?,?)" 
 
-        campos = (id, placa, modelo, data_entrada, data_saida)
+        campos = (id, placa, modelo, data_entrada, horario_entrada,  data_saida, horario_saida)
 
         consulta = conexao.cursor()
         consulta.execute(sql, campos)
@@ -46,7 +48,9 @@ class Veiculo:
             print(f"Placa: {itens[1]}")
             print(f"Modelo: {itens[2]}")
             print(f"Data de entrada: {itens[3]}")
-            print(f"Data de saida: {itens[4]}")
+            print(f"Horario de entrada: {itens[4]}")
+            print(f"Data de saida: {itens[5]}")
+            print(f"Horario de saida: {itens[6]}")
             print("-"*40)
             
         conexao.close()
@@ -79,11 +83,13 @@ class Veiculo:
         placa = input("Nova placa: ")
         modelo = input("Novo modelo: ")
         data_entrada = input("Nova data de entrada: ")
+        horario_entrada = input("Nova hora de entrada: ")
         data_saida = input("Nova data de saída: ")
+        horario_saida = input("Nova hora de saída: ")
         
-        sql = "UPDATE veiculos SET placa = ?, modelo = ?, data_entrada = ?, data_saida = ? WHERE id = ?"
+        sql = "UPDATE veiculos SET placa = ?, modelo = ?, data_entrada = ?, horario_entrada = ?, data_saida = ?, horario_saida = ? WHERE id = ?"
         
-        campos = (placa, modelo, data_entrada, data_saida, id)
+        campos = (placa, modelo, data_entrada, horario_entrada, data_saida, horario_saida, id)
         
         consulta.execute(sql, campos)
         conexao.commit()
@@ -106,6 +112,8 @@ class Veiculo:
             print(f"ID: {itens[0]}")
             print(f"Placa: {itens[1]}")
             print(f"Modelo: {itens[2]}")
-            print(f"data_entrada: {itens[3]}")
-            print(f"data_saida: {itens[4]}")
+            print(f"Data de Entrada: {itens[3]}")
+            print(f"Horario de Entrada: {itens[4]}")
+            print(f"Data de Saida: {itens[5]}")
+            print(f"Horario de Saida: {itens[6]}")
         conexao.close()
