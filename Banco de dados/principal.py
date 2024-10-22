@@ -22,10 +22,8 @@ while True:
         v1.consultarVeiculo()  
     elif res == '3':  
         v1.deletarVeiculo()
-        print("Deletando...") 
     elif res == '4':  
         v1.atualizarVeiculo()
-        print("Atualizando...")
     elif res == '0':
         print("Saindo...")  
         time.sleep(2)
