@@ -27,7 +27,7 @@ while True:
         v1.atualizarVeiculo()
         print("Atualizando...")
     elif res == '0':
-        print("Saindo...")
+        print("Saindo...")  
         time.sleep(2)
         break
     elif res == '5':
