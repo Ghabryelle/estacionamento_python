@@ -7,7 +7,7 @@ class Veiculo:
         tabela = """
         CREATE TABLE IF NOT EXISTS veiculos(
             id INTEGER PRIMARY KEY,
-            placa VARCHAR(100),
+            placa VARCHAR(10),
             modelo VARCHAR(100),
             data_entrada DATE,
             horario_entrada TIME,
@@ -80,16 +80,12 @@ class Veiculo:
         consulta = conexao.cursor()
         
         id = input("Digite o ID que deseja alterar: ")
-        placa = input("Nova placa: ")
-        modelo = input("Novo modelo: ")
-        data_entrada = input("Nova data de entrada: ")
-        horario_entrada = input("Nova hora de entrada: ")
         data_saida = input("Nova data de saída: ")
         horario_saida = input("Nova hora de saída: ")
         
-        sql = "UPDATE veiculos SET placa = ?, modelo = ?, data_entrada = ?, horario_entrada = ?, data_saida = ?, horario_saida = ? WHERE id = ?"
+        sql = "UPDATE veiculos SET data_saida = ?, horario_saida = ? WHERE id = ?"
         
-        campos = (placa, modelo, data_entrada, horario_entrada, data_saida, horario_saida, id)
+        campos = (data_saida, horario_saida, id)
         
         consulta.execute(sql, campos)
         conexao.commit()
